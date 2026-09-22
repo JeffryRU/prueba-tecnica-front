@@ -54,11 +54,11 @@ Cada nivel terminado se etiqueta (`v1.0-nivel-1`, `v2.0-nivel-2`, `v3.0-nivel-3`
 
 > Interfaz más interactiva con navegación, validaciones y detalle de elementos.
 
-- [ ] Todo lo del nivel 1.
-- [ ] Vista de detalle al hacer clic en un Pokémon (`/pokemon/:name`): estadísticas, habilidades, especie y evoluciones.
-- [ ] Rutas con React Router (layout común, página 404).
-- [ ] Paginación sincronizada con la URL (`?page=&q=&type=`).
-- [ ] Formulario para crear un post en JSONPlaceholder con React Hook Form + Zod.
+- [x] Todo lo del nivel 1.
+- [x] Vista de detalle al hacer clic en un Pokémon (`/pokemon/:name`): estadísticas, habilidades, especie y evoluciones.
+- [x] Rutas con React Router (layout común, página 404).
+- [x] Paginación sincronizada con la URL (`?page=&q=&type=`).
+- [x] Formulario para crear un post en JSONPlaceholder con React Hook Form + Zod.
 
 ### Nivel 3 – Avanzado · rama `nivel-3`
 
