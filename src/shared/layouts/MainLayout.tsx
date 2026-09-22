@@ -2,7 +2,7 @@ import { NavLink, Outlet } from 'react-router'
 
 const navItems = [{ to: '/', label: 'Inicio' }]
 
-export function AppLayout() {
+export function MainLayout() {
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
