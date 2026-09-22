@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --color-brand-50: oklch(0.97 0.03 150);
+  --color-brand-500: oklch(0.72 0.19 150);
+  --color-brand-600: oklch(0.62 0.18 150);
+  --color-brand-700: oklch(0.52 0.15 150);
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+  }
+}
