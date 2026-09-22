@@ -4,14 +4,14 @@ SPA en React que consume APIs públicas y muestra la información de forma diná
 
 ## Stack
 
-| Tecnología | Uso |
-|---|---|
-| React + TypeScript (Vite) | Base de la aplicación |
-| React Router | Navegación entre pantallas |
-| Redux Toolkit / RTK Query | Consumo de API, caché y mutations |
-| React Hook Form | Formularios |
-| Zod | Validación de esquemas y formularios |
-| Tailwind CSS | Estilos |
+| Tecnología                | Uso                                  |
+| ------------------------- | ------------------------------------ |
+| React + TypeScript (Vite) | Base de la aplicación                |
+| React Router              | Navegación entre pantallas           |
+| Redux Toolkit / RTK Query | Consumo de API, caché y mutations    |
+| React Hook Form           | Formularios                          |
+| Zod                       | Validación de esquemas y formularios |
+| Tailwind CSS              | Estilos                              |
 
 ## APIs
 
@@ -30,10 +30,10 @@ develop   ── estructura base ──●──────────●─�
                                 \ nivel-1 / \ nivel-2 / \ nivel-3 /
 ```
 
-| Rama | Contenido |
-|---|---|
-| `main` | Plan de trabajo. Al terminar recibe la versión final. |
-| `develop` | Integración. Parte de la estructura base y acumula cada nivel. |
+| Rama                              | Contenido                                                                 |
+| --------------------------------- | ------------------------------------------------------------------------- |
+| `main`                            | Plan de trabajo. Al terminar recibe la versión final.                     |
+| `develop`                         | Integración. Parte de la estructura base y acumula cada nivel.            |
 | `nivel-1` / `nivel-2` / `nivel-3` | Trabajo de cada punto de control. Sale de `develop` y vuelve a él por PR. |
 
 Cada nivel terminado se etiqueta (`v1.0-nivel-1`, `v2.0-nivel-2`, `v3.0-nivel-3`) para poder revisar su estado exacto en cualquier momento. Commits con [Conventional Commits](https://www.conventionalcommits.org/es/).
@@ -41,15 +41,17 @@ Cada nivel terminado se etiqueta (`v1.0-nivel-1`, `v2.0-nivel-2`, `v3.0-nivel-3`
 ## Plan por nivel
 
 ### Nivel 1 – Básico · rama `nivel-1`
+
 > Mostrar una lista de elementos desde una API con información básica.
 
 - [ ] Listado de Pokémon (imagen, número, nombre y tipos) desde PokeAPI.
 - [ ] Consumo con RTK Query (`createApi` + `fetchBaseQuery`).
 - [ ] Interfaz con Tailwind: grid de tarjetas responsivo.
-- [ ] Búsqueda por nombre (con *debounce*) y filtro simple por estado.
+- [ ] Búsqueda por nombre o número (con _debounce_) y filtro por tipo.
 - [ ] Estados de carga, vacío y error.
 
 ### Nivel 2 – Intermedio · rama `nivel-2`
+
 > Interfaz más interactiva con navegación, validaciones y detalle de elementos.
 
 - [ ] Todo lo del nivel 1.
@@ -59,15 +61,16 @@ Cada nivel terminado se etiqueta (`v1.0-nivel-1`, `v2.0-nivel-2`, `v3.0-nivel-3`
 - [ ] Formulario para crear un post en JSONPlaceholder con React Hook Form + Zod.
 
 ### Nivel 3 – Avanzado · rama `nivel-3`
+
 > SPA completa con arquitectura escalable y lógica avanzada.
 
 - [ ] Todo lo del nivel 2.
 - [ ] CRUD completo de **posts** (crear, listar, ver detalle, actualizar, eliminar).
-  - [ ] RTK Query *mutations* para crear, editar y eliminar, con actualización de caché.
+  - [ ] RTK Query _mutations_ para crear, editar y eliminar, con actualización de caché.
   - [ ] Formularios validados con Zod.
-- [ ] Manejo de errores personalizado: notificaciones (toasts), estados de error por pantalla y *error boundary* de rutas.
+- [ ] Manejo de errores personalizado: notificaciones (toasts), estados de error por pantalla y _error boundary_ de rutas.
 - [ ] Integración con la segunda API: autores con Pokémon compañero y posts etiquetados con un Pokémon de PokeAPI.
-- [ ] Modularización avanzada por *features* (slices, endpoints inyectados, hooks personalizados).
+- [ ] Modularización avanzada por _features_ (slices, endpoints inyectados, hooks personalizados).
 - [ ] UI pulida con componentes reutilizables (Button, Input, Card, Modal, Pagination, Skeleton…).
 - [ ] Animaciones sutiles de transición y feedback (opcional).
 
