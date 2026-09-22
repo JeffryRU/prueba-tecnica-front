@@ -58,3 +58,28 @@ export type PokemonResponse = {
     other?: { 'official-artwork'?: { front_default: string | null } }
   }
 }
+
+export type PokemonSpecies = {
+  genus: string | null
+  description: string | null
+  evolutionChainId: number | null
+  isLegendary: boolean
+  isMythical: boolean
+}
+
+/** Etapas de evolución: cada etapa puede tener varias ramas (p. ej. Eevee). */
+export type EvolutionStage = PokemonSummary[]
+
+type LocalizedText = { language: { name: string } }
+
+export type SpeciesResponse = {
+  genera: ({ genus: string } & LocalizedText)[]
+  flavor_text_entries: ({ flavor_text: string } & LocalizedText)[]
+  evolution_chain: { url: string } | null
+  is_legendary: boolean
+  is_mythical: boolean
+}
+
+export type ChainLink = { species: NamedResource; evolves_to: ChainLink[] }
+
+export type EvolutionChainResponse = { chain: ChainLink }

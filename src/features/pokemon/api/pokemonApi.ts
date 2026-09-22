@@ -1,6 +1,11 @@
 import { pokeApi } from '@/shared/api/pokeApi'
 import type {
+  ChainLink,
+  EvolutionChainResponse,
+  EvolutionStage,
   Pokemon,
+  PokemonSpecies,
+  SpeciesResponse,
   PokemonListResponse,
   PokemonResponse,
   PokemonSummary,
@@ -39,6 +44,35 @@ function toPokemon(raw: PokemonResponse): Pokemon {
   }
 }
 
+/** Prefiere español y, si no existe, inglés. */
+function localized<T extends { language: { name: string } }>(entries: T[]): T | undefined {
+  return (
+    entries.find((entry) => entry.language.name === 'es') ??
+    entries.find((entry) => entry.language.name === 'en')
+  )
+}
+
+function toSpecies(raw: SpeciesResponse): PokemonSpecies {
+  return {
+    genus: localized(raw.genera)?.genus ?? null,
+    description: localized(raw.flavor_text_entries)?.flavor_text.replace(/\s+/g, ' ') ?? null,
+    evolutionChainId: raw.evolution_chain ? idFromUrl(raw.evolution_chain.url) : null,
+    isLegendary: raw.is_legendary,
+    isMythical: raw.is_mythical,
+  }
+}
+
+/** Recorre el árbol de evolución por niveles: [[bulbasaur], [ivysaur], [venusaur]]. */
+function toStages(root: ChainLink): EvolutionStage[] {
+  const stages: EvolutionStage[] = []
+  let level = [root]
+  while (level.length) {
+    stages.push(toSummaries(level.map((link) => link.species)))
+    level = level.flatMap((link) => link.evolves_to)
+  }
+  return stages.filter((stage) => stage.length > 0)
+}
+
 export const pokemonApi = pokeApi.injectEndpoints({
   endpoints: (build) => ({
     /** Índice completo (nombre + id). PokeAPI no busca por texto parcial: se filtra en cliente. */
@@ -61,8 +95,25 @@ export const pokemonApi = pokeApi.injectEndpoints({
       transformResponse: toPokemon,
       keepUnusedDataFor: ONE_HOUR,
     }),
+
+    getPokemonSpecies: build.query<PokemonSpecies, number>({
+      query: (id) => `pokemon-species/${id}`,
+      transformResponse: toSpecies,
+      keepUnusedDataFor: ONE_HOUR,
+    }),
+
+    getEvolutionChain: build.query<EvolutionStage[], number>({
+      query: (id) => `evolution-chain/${id}`,
+      transformResponse: (response: EvolutionChainResponse) => toStages(response.chain),
+      keepUnusedDataFor: ONE_HOUR,
+    }),
   }),
 })
 
-export const { useGetPokemonIndexQuery, useGetPokemonIdsByTypeQuery, useGetPokemonQuery } =
-  pokemonApi
+export const {
+  useGetPokemonIndexQuery,
+  useGetPokemonIdsByTypeQuery,
+  useGetPokemonQuery,
+  useGetPokemonSpeciesQuery,
+  useGetEvolutionChainQuery,
+} = pokemonApi
