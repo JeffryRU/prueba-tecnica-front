@@ -44,11 +44,11 @@ Cada nivel terminado se etiqueta (`v1.0-nivel-1`, `v2.0-nivel-2`, `v3.0-nivel-3`
 
 > Mostrar una lista de elementos desde una API con información básica.
 
-- [ ] Listado de Pokémon (imagen, número, nombre y tipos) desde PokeAPI.
-- [ ] Consumo con RTK Query (`createApi` + `fetchBaseQuery`).
-- [ ] Interfaz con Tailwind: grid de tarjetas responsivo.
-- [ ] Búsqueda por nombre o número (con _debounce_) y filtro por tipo.
-- [ ] Estados de carga, vacío y error.
+- [x] Listado de Pokémon (imagen, número, nombre y tipos) desde PokeAPI.
+- [x] Consumo con RTK Query (`createApi` + `fetchBaseQuery`).
+- [x] Interfaz con Tailwind: grid de tarjetas responsivo.
+- [x] Búsqueda por nombre o número (con _debounce_) y filtro por tipo.
+- [x] Estados de carga, vacío y error.
 
 ### Nivel 2 – Intermedio · rama `nivel-2`
 

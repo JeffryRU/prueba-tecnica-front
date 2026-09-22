@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from 'react-router'
 
-const navItems = [{ to: '/', label: 'Inicio' }]
+const navItems = [{ to: '/', label: 'Pokédex' }]
 
 export function MainLayout() {
   return (
@@ -8,7 +8,7 @@ export function MainLayout() {
       <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           <NavLink to="/" className="text-lg font-bold tracking-tight">
-            Multiverse<span className="text-brand-600">Hub</span>
+            Poké<span className="text-brand-600">Hub</span>
           </NavLink>
           <nav className="flex gap-1">
             {navItems.map(({ to, label }) => (

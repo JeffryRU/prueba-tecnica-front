@@ -2,14 +2,59 @@
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --color-brand-50: oklch(0.97 0.03 150);
-  --color-brand-500: oklch(0.72 0.19 150);
-  --color-brand-600: oklch(0.62 0.18 150);
-  --color-brand-700: oklch(0.52 0.15 150);
+
+  /* Marca: rojo Pokédex */
+  --color-brand-50: oklch(0.97 0.02 25);
+  --color-brand-100: oklch(0.94 0.04 25);
+  --color-brand-500: oklch(0.64 0.21 25);
+  --color-brand-600: oklch(0.57 0.21 25);
+  --color-brand-700: oklch(0.5 0.19 25);
+
+  /* Colores por tipo de Pokémon */
+  --color-type-normal: #9099a1;
+  --color-type-fire: #f08a4b;
+  --color-type-water: #4d90d5;
+  --color-type-grass: #5fbc51;
+  --color-type-electric: #e5c531;
+  --color-type-ice: #70ccbd;
+  --color-type-fighting: #ce4069;
+  --color-type-poison: #ab6ac8;
+  --color-type-ground: #d97746;
+  --color-type-flying: #8fa8dd;
+  --color-type-psychic: #f66f71;
+  --color-type-bug: #90c12c;
+  --color-type-rock: #c5b489;
+  --color-type-ghost: #5269ac;
+  --color-type-dragon: #0a6dc4;
+  --color-type-dark: #5a5366;
+  --color-type-steel: #5a8ea1;
+  --color-type-fairy: #ec8fe6;
+
+  --animate-fade-in: fade-in 0.3s ease-out both;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
 
 @layer base {
   body {
     @apply bg-slate-50 text-slate-900 antialiased;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
