@@ -15,12 +15,12 @@ SPA en React que consume APIs públicas y muestra la información de forma diná
 
 ## APIs
 
-- **[Rick and Morty API](https://rickandmortyapi.com/documentation)** – API principal de lectura: listado de personajes con paginación nativa, búsqueda por nombre y filtros por estado/especie, vista de detalle.
+- **[PokeAPI](https://pokeapi.co/docs/v2)** – API principal de lectura: listado de Pokémon, tipos, estadísticas, habilidades, especie y cadena evolutiva.
 - **[JSONPlaceholder](https://jsonplaceholder.typicode.com/)** – Única API de la lista que acepta `POST`/`PUT`/`PATCH`/`DELETE`; se usa para formularios y el CRUD.
 
 > JSONPlaceholder responde como si guardara los cambios, pero **no los persiste**. Por eso el CRUD actualiza la caché de RTK Query de forma manual/optimista (`updateQueryData`) en lugar de volver a pedir los datos.
 
-**Relación entre ambas (nivel 3):** los usuarios/autores de JSONPlaceholder se enlazan con personajes de Rick and Morty (avatar, estado, especie), de modo que cada post muestra datos combinados de las dos fuentes.
+**Relación entre ambas (nivel 3):** cada usuario de JSONPlaceholder tiene un Pokémon compañero (avatar, tipos y enlace a su ficha) y cada post puede etiquetar un Pokémon, de modo que las publicaciones muestran datos combinados de las dos fuentes.
 
 ## Estrategia de ramas
 
@@ -44,10 +44,10 @@ Cada nivel terminado se etiqueta (`v1.0-nivel-1`, `v2.0-nivel-2`, `v3.0-nivel-3`
 
 > Mostrar una lista de elementos desde una API con información básica.
 
-- [ ] Listado de personajes de Rick and Morty.
+- [ ] Listado de Pokémon (imagen, número, nombre y tipos) desde PokeAPI.
 - [ ] Consumo con RTK Query (`createApi` + `fetchBaseQuery`).
 - [ ] Interfaz con Tailwind: grid de tarjetas responsivo.
-- [ ] Búsqueda por nombre (con _debounce_) y filtro simple por estado.
+- [ ] Búsqueda por nombre o número (con _debounce_) y filtro por tipo.
 - [ ] Estados de carga, vacío y error.
 
 ### Nivel 2 – Intermedio · rama `nivel-2`
@@ -55,9 +55,9 @@ Cada nivel terminado se etiqueta (`v1.0-nivel-1`, `v2.0-nivel-2`, `v3.0-nivel-3`
 > Interfaz más interactiva con navegación, validaciones y detalle de elementos.
 
 - [ ] Todo lo del nivel 1.
-- [ ] Vista de detalle al hacer clic en un personaje (`/characters/:id`).
+- [ ] Vista de detalle al hacer clic en un Pokémon (`/pokemon/:name`): estadísticas, habilidades, especie y evoluciones.
 - [ ] Rutas con React Router (layout común, página 404).
-- [ ] Paginación con la paginación nativa de la API, sincronizada con la URL (`?page=&name=`).
+- [ ] Paginación sincronizada con la URL (`?page=&q=&type=`).
 - [ ] Formulario para crear un post en JSONPlaceholder con React Hook Form + Zod.
 
 ### Nivel 3 – Avanzado · rama `nivel-3`
@@ -69,7 +69,7 @@ Cada nivel terminado se etiqueta (`v1.0-nivel-1`, `v2.0-nivel-2`, `v3.0-nivel-3`
   - [ ] RTK Query _mutations_ para crear, editar y eliminar, con actualización de caché.
   - [ ] Formularios validados con Zod.
 - [ ] Manejo de errores personalizado: notificaciones (toasts), estados de error por pantalla y _error boundary_ de rutas.
-- [ ] Integración con la segunda API: posts/autores enriquecidos con personajes de Rick and Morty.
+- [ ] Integración con la segunda API: autores con Pokémon compañero y posts etiquetados con un Pokémon de PokeAPI.
 - [ ] Modularización avanzada por _features_ (slices, endpoints inyectados, hooks personalizados).
 - [ ] UI pulida con componentes reutilizables (Button, Input, Card, Modal, Pagination, Skeleton…).
 - [ ] Animaciones sutiles de transición y feedback (opcional).
@@ -79,8 +79,9 @@ Cada nivel terminado se etiqueta (`v1.0-nivel-1`, `v2.0-nivel-2`, `v3.0-nivel-3`
 ```
 src/
 ├── app/            # store, router, providers
-├── features/       # un módulo por dominio (characters, posts…): api, components, hooks, schemas, pages
-├── shared/         # componentes UI, hooks y utilidades reutilizables
+├── features/       # un módulo por dominio (pokemon, posts…): api, components, hooks, schemas, types
+├── pages/          # pantallas asociadas a rutas
+├── shared/         # componentes UI, layouts, hooks y utilidades reutilizables
 └── main.tsx
 ```
 
