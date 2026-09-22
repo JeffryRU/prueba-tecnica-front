@@ -1,3 +1,4 @@
+import { Link, useLocation } from 'react-router'
 import { Skeleton } from '@/shared/components/ui/Skeleton'
 import { useGetPokemonQuery } from '../api/pokemonApi'
 import type { PokemonSummary } from '../types/pokemon'
@@ -7,9 +8,15 @@ import { TypeBadge } from './TypeBadge'
 export function PokemonCard({ pokemon }: { pokemon: PokemonSummary }) {
   // Cada tarjeta pide su detalle (tipos); RTK Query lo cachea y deduplica.
   const { data, isLoading } = useGetPokemonQuery(pokemon.name)
+  const location = useLocation()
 
   return (
-    <article className="group animate-fade-in relative flex flex-col items-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+    <Link
+      to={`/pokemon/${pokemon.name}`}
+      // Guarda la URL de la lista (con búsqueda y página) para el botón "Volver".
+      state={{ from: location.pathname + location.search }}
+      className="group animate-fade-in focus-visible:outline-brand-600 relative flex flex-col items-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2"
+    >
       <span className="self-end font-mono text-xs font-semibold text-slate-400">
         {formatPokemonNumber(pokemon.id)}
       </span>
@@ -32,7 +39,7 @@ export function PokemonCard({ pokemon }: { pokemon: PokemonSummary }) {
           data?.types.map((type) => <TypeBadge key={type} type={type} />)
         )}
       </div>
-    </article>
+    </Link>
   )
 }
 

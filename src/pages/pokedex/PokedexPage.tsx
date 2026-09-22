@@ -1,23 +1,33 @@
-import { useState } from 'react'
 import { PokemonFiltersBar } from '@/features/pokemon/components/PokemonFiltersBar'
 import { PokemonGrid, PokemonGridSkeleton } from '@/features/pokemon/components/PokemonGrid'
-import { usePokemonSearch, type PokemonFilters } from '@/features/pokemon/hooks/usePokemonSearch'
+import { usePokedexParams } from '@/features/pokemon/hooks/usePokedexParams'
+import { usePokemonSearch } from '@/features/pokemon/hooks/usePokemonSearch'
 import { Button } from '@/shared/components/ui/Button'
+import { Pagination } from '@/shared/components/ui/Pagination'
 import { StatusMessage } from '@/shared/components/ui/StatusMessage'
-import { useDebounce } from '@/shared/hooks/useDebounce'
+import { useDebouncedSync } from '@/shared/hooks/useDebouncedSync'
+import { clampPage } from '@/shared/utils/pagination'
 
 const PAGE_SIZE = 24
 
 export function PokedexPage() {
-  const [filters, setFilters] = useState<PokemonFilters>({ query: '', type: '' })
-  const [visible, setVisible] = useState(PAGE_SIZE)
-  const query = useDebounce(filters.query)
-  const { results, total, isLoading, isError, retry } = usePokemonSearch({ ...filters, query })
+  const [params, updateParams] = usePokedexParams()
+  // El texto se escribe en local y se lleva a la URL con debounce.
+  const [queryInput, setQueryInput] = useDebouncedSync(params.query, (query) =>
+    updateParams({ query }),
+  )
 
-  const changeFilters = (next: PokemonFilters) => {
-    setFilters(next)
-    setVisible(PAGE_SIZE)
+  const { results, total, isLoading, isError, retry } = usePokemonSearch(params)
+  const totalPages = Math.ceil(results.length / PAGE_SIZE)
+  const page = clampPage(params.page, totalPages)
+  const pageItems = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+
+  const changePage = (next: number) => {
+    updateParams({ page: next })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  const clearFilters = () => updateParams({ query: '', type: '' })
 
   return (
     <section className="space-y-6">
@@ -25,11 +35,17 @@ export function PokedexPage() {
         <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Pokédex</h1>
         <p className="text-slate-600">
           Explora los {total || 'más de mil'} Pokémon de la Pokédex nacional. Busca por nombre o
-          número y filtra por tipo.
+          número, filtra por tipo y abre cualquiera para ver su ficha.
         </p>
       </header>
 
-      <PokemonFiltersBar filters={filters} onChange={changeFilters} />
+      <PokemonFiltersBar
+        filters={{ query: queryInput, type: params.type }}
+        onChange={({ query, type }) => {
+          setQueryInput(query)
+          if (type !== params.type) updateParams({ type })
+        }}
+      />
 
       {isError ? (
         <StatusMessage
@@ -45,7 +61,7 @@ export function PokedexPage() {
           title="Ningún Pokémon coincide"
           description="Prueba con otro nombre, número o tipo."
           action={
-            <Button variant="secondary" onClick={() => changeFilters({ query: '', type: '' })}>
+            <Button variant="secondary" onClick={clearFilters}>
               Limpiar filtros
             </Button>
           }
@@ -53,16 +69,10 @@ export function PokedexPage() {
       ) : (
         <>
           <p className="text-sm text-slate-500" aria-live="polite">
-            Mostrando {Math.min(visible, results.length)} de {results.length} Pokémon
+            {results.length} Pokémon · página {page} de {totalPages}
           </p>
-          <PokemonGrid pokemon={results.slice(0, visible)} />
-          {visible < results.length && (
-            <div className="flex justify-center">
-              <Button variant="secondary" onClick={() => setVisible((count) => count + PAGE_SIZE)}>
-                Mostrar más
-              </Button>
-            </div>
-          )}
+          <PokemonGrid pokemon={pageItems} />
+          <Pagination page={page} totalPages={totalPages} onPageChange={changePage} />
         </>
       )}
     </section>
