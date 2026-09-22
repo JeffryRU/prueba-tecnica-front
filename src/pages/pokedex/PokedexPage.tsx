@@ -13,11 +13,12 @@ const PAGE_SIZE = 24
 export function PokedexPage() {
   const [params, updateParams] = usePokedexParams()
   // El texto se escribe en local y se lleva a la URL con debounce.
-  const [queryInput, setQueryInput] = useDebouncedSync(params.query, (query) =>
-    updateParams({ query }),
-  )
+  const [queryInput, setQueryInput] = useDebouncedSync(params.q, (q) => updateParams({ q }))
 
-  const { results, total, isLoading, isError, retry } = usePokemonSearch(params)
+  const { results, total, isLoading, isError, retry } = usePokemonSearch({
+    query: params.q,
+    type: params.type,
+  })
   const totalPages = Math.ceil(results.length / PAGE_SIZE)
   const page = clampPage(params.page, totalPages)
   const pageItems = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
@@ -27,7 +28,7 @@ export function PokedexPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const clearFilters = () => updateParams({ query: '', type: '' })
+  const clearFilters = () => updateParams({ q: '', type: '' })
 
   return (
     <section className="space-y-6">
